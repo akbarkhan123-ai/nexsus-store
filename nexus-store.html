@@ -1,0 +1,3104 @@
+<!doctype html>
+<html lang="uz">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>NEXUS — Premium Tech Store</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+			rel="stylesheet" />
+		<style>
+			:root {
+				--bg: #080810;
+				--bg2: #0e0e18;
+				--bg3: #13131f;
+				--card: #18182a;
+				--card2: #1e1e30;
+				--border: rgba(255, 255, 255, 0.07);
+				--border2: rgba(255, 255, 255, 0.12);
+				--accent: #c8ff00;
+				--accent2: #7b5cff;
+				--danger: #ff4d6d;
+				--text: #ededf5;
+				--muted: #6b6b88;
+				--white: #ffffff;
+			}
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			html {
+				scroll-behavior: smooth;
+			}
+			body {
+				background: var(--bg);
+				color: var(--text);
+				font-family: 'DM Sans', sans-serif;
+				font-size: 15px;
+				overflow-x: hidden;
+				cursor: none;
+			}
+
+			/* CURSOR */
+			.cursor {
+				width: 9px;
+				height: 9px;
+				background: var(--accent);
+				border-radius: 50%;
+				position: fixed;
+				pointer-events: none;
+				z-index: 9999;
+				transition: transform 0.1s;
+				mix-blend-mode: difference;
+			}
+			.cursor-ring {
+				width: 34px;
+				height: 34px;
+				border: 1.5px solid rgba(200, 255, 0, 0.5);
+				border-radius: 50%;
+				position: fixed;
+				pointer-events: none;
+				z-index: 9998;
+				transition: all 0.25s ease;
+				opacity: 0.6;
+			}
+			body:has(button:hover) .cursor,
+			.body:has(a:hover) .cursor {
+				transform: scale(2);
+			}
+
+			/* NOISE */
+			body::after {
+				content: '';
+				position: fixed;
+				inset: 0;
+				background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+				pointer-events: none;
+				z-index: 9997;
+				opacity: 0.4;
+			}
+
+			/* NAV */
+			nav {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 500;
+				height: 66px;
+				padding: 0 4%;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				background: rgba(8, 8, 16, 0.88);
+				backdrop-filter: blur(24px);
+				border-bottom: 1px solid var(--border);
+			}
+			.logo {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1.45rem;
+				letter-spacing: -0.03em;
+				color: #fff;
+				text-decoration: none;
+				cursor: none;
+			}
+			.logo span {
+				color: var(--accent);
+			}
+			.nav-center {
+				display: flex;
+				align-items: center;
+				gap: 0.3rem;
+			}
+			.nav-btn {
+				background: none;
+				border: none;
+				color: var(--muted);
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.875rem;
+				font-weight: 500;
+				padding: 0.5rem 0.9rem;
+				border-radius: 8px;
+				cursor: none;
+				transition: all 0.2s;
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+			}
+			.nav-btn:hover,
+			.nav-btn.active {
+				color: var(--white);
+				background: var(--card2);
+			}
+			.nav-btn.active {
+				color: var(--accent);
+			}
+			.nav-right {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+			}
+			.search-wrap {
+				position: relative;
+			}
+			.search-input {
+				background: var(--card);
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 0.5rem 1rem 0.5rem 2.4rem;
+				border-radius: 100px;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.85rem;
+				width: 220px;
+				outline: none;
+				transition: all 0.3s;
+				cursor: none;
+			}
+			.search-input:focus {
+				border-color: rgba(200, 255, 0, 0.3);
+				width: 270px;
+				background: var(--card2);
+			}
+			.search-icon {
+				position: absolute;
+				left: 0.8rem;
+				top: 50%;
+				transform: translateY(-50%);
+				color: var(--muted);
+				font-size: 0.85rem;
+				pointer-events: none;
+			}
+			.cart-btn {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: var(--card2);
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 0.5rem 1.1rem;
+				border-radius: 100px;
+				cursor: none;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.875rem;
+				font-weight: 500;
+				transition: all 0.2s;
+				position: relative;
+			}
+			.cart-btn:hover {
+				border-color: var(--border2);
+				background: var(--card);
+			}
+			.cart-badge {
+				background: var(--accent);
+				color: #000;
+				border-radius: 50%;
+				width: 18px;
+				height: 18px;
+				font-size: 0.68rem;
+				font-weight: 800;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.ham {
+				display: none;
+				background: none;
+				border: none;
+				color: var(--text);
+				font-size: 1.4rem;
+				cursor: none;
+				padding: 0.3rem;
+			}
+
+			/* MOBILE NAV */
+			.mobile-menu {
+				display: none;
+				position: fixed;
+				top: 66px;
+				left: 0;
+				right: 0;
+				background: rgba(8, 8, 16, 0.97);
+				backdrop-filter: blur(24px);
+				border-bottom: 1px solid var(--border);
+				z-index: 499;
+				padding: 1.2rem 4%;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+			.mobile-menu.open {
+				display: flex;
+			}
+			.mobile-nav-btn {
+				background: none;
+				border: none;
+				color: var(--muted);
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.9rem;
+				font-weight: 500;
+				padding: 0.7rem 1rem;
+				border-radius: 10px;
+				cursor: none;
+				text-align: left;
+				transition: all 0.2s;
+			}
+			.mobile-nav-btn:hover,
+			.mobile-nav-btn.active {
+				color: var(--accent);
+				background: rgba(200, 255, 0, 0.05);
+			}
+			.mobile-search {
+				background: var(--card);
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 0.65rem 1rem;
+				border-radius: 10px;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.9rem;
+				width: 100%;
+				outline: none;
+				margin-top: 0.5rem;
+			}
+
+			/* PAGE WRAPPER */
+			.page {
+				padding-top: 66px;
+				min-height: 100vh;
+			}
+
+			/* ===== HERO ===== */
+			#page-home {
+				display: block;
+			}
+			#page-products,
+			#page-categories,
+			#page-cart {
+				display: none;
+			}
+
+			.hero {
+				min-height: calc(100vh - 66px);
+				padding: 0 4%;
+				display: flex;
+				align-items: center;
+				position: relative;
+				overflow: hidden;
+			}
+			.hero-bg {
+				position: absolute;
+				inset: 0;
+				background:
+					radial-gradient(ellipse 75% 55% at 65% 50%, rgba(123, 92, 255, 0.13) 0%, transparent 60%),
+					radial-gradient(ellipse 40% 40% at 80% 15%, rgba(200, 255, 0, 0.07) 0%, transparent 50%), var(--bg);
+			}
+			.hero-grid {
+				position: absolute;
+				inset: 0;
+				background-image:
+					linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+				background-size: 55px 55px;
+				mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 20%, transparent 100%);
+			}
+			.hero-content {
+				position: relative;
+				z-index: 2;
+				max-width: 680px;
+			}
+			.hero-badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: rgba(200, 255, 0, 0.09);
+				border: 1px solid rgba(200, 255, 0, 0.22);
+				color: var(--accent);
+				padding: 0.38rem 0.95rem;
+				border-radius: 100px;
+				font-size: 0.78rem;
+				font-weight: 600;
+				letter-spacing: 0.05em;
+				margin-bottom: 1.8rem;
+				animation: fadeUp 0.7s ease both;
+			}
+			.bdot {
+				width: 6px;
+				height: 6px;
+				background: var(--accent);
+				border-radius: 50%;
+				animation: blink 2s infinite;
+			}
+			@keyframes blink {
+				0%,
+				100% {
+					opacity: 1;
+				}
+				50% {
+					opacity: 0.3;
+				}
+			}
+			.hero h1 {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: clamp(2.8rem, 5.5vw, 5rem);
+				line-height: 0.95;
+				letter-spacing: -0.03em;
+				color: #fff;
+				animation: fadeUp 0.7s 0.1s ease both;
+				margin-bottom: 1.4rem;
+			}
+			.hero h1 em {
+				font-style: normal;
+				color: var(--accent);
+				display: block;
+			}
+			.hero-sub {
+				color: var(--muted);
+				font-size: 1rem;
+				line-height: 1.7;
+				max-width: 460px;
+				animation: fadeUp 0.7s 0.2s ease both;
+				margin-bottom: 2.2rem;
+			}
+			.hero-btns {
+				display: flex;
+				gap: 0.85rem;
+				flex-wrap: wrap;
+				animation: fadeUp 0.7s 0.3s ease both;
+			}
+			.btn-primary {
+				background: var(--accent);
+				color: #000;
+				border: none;
+				padding: 0.8rem 1.8rem;
+				border-radius: 9px;
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.9rem;
+				cursor: none;
+				transition: all 0.2s;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.45rem;
+			}
+			.btn-primary:hover {
+				background: #d5ff2e;
+				transform: translateY(-2px);
+			}
+			.btn-ghost {
+				background: transparent;
+				color: var(--text);
+				border: 1px solid var(--border2);
+				padding: 0.8rem 1.8rem;
+				border-radius: 9px;
+				font-family: 'DM Sans', sans-serif;
+				font-weight: 500;
+				font-size: 0.9rem;
+				cursor: none;
+				transition: all 0.2s;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.45rem;
+			}
+			.btn-ghost:hover {
+				background: var(--card);
+				border-color: rgba(255, 255, 255, 0.2);
+			}
+			.hero-floats {
+				position: absolute;
+				right: 4%;
+				top: 50%;
+				transform: translateY(-50%);
+				display: flex;
+				flex-direction: column;
+				gap: 1.2rem;
+				z-index: 2;
+				animation: fadeUp 0.7s 0.4s ease both;
+			}
+			.float-card {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 14px;
+				padding: 1.1rem 1.4rem;
+				text-align: center;
+				min-width: 130px;
+			}
+			.float-num {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.7rem;
+				font-weight: 800;
+				color: var(--accent);
+			}
+			.float-label {
+				font-size: 0.72rem;
+				color: var(--muted);
+				margin-top: 0.2rem;
+			}
+
+			/* TICKER */
+			.ticker-wrap {
+				padding: 2.2rem 0;
+				border-top: 1px solid var(--border);
+				border-bottom: 1px solid var(--border);
+				overflow: hidden;
+			}
+			.ticker-track {
+				display: flex;
+				gap: 3.5rem;
+				animation: tick 22s linear infinite;
+				width: max-content;
+			}
+			@keyframes tick {
+				from {
+					transform: translateX(0);
+				}
+				to {
+					transform: translateX(-50%);
+				}
+			}
+			.tick-item {
+				font-family: 'Syne', sans-serif;
+				font-size: 0.85rem;
+				font-weight: 700;
+				color: var(--muted);
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				white-space: nowrap;
+				display: flex;
+				align-items: center;
+				gap: 0.9rem;
+			}
+			.tick-sep {
+				color: var(--accent);
+			}
+
+			/* FEATURED SECTION */
+			.featured-section {
+				padding: 5rem 4%;
+			}
+			.sec-head {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				margin-bottom: 2.5rem;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			.sec-label {
+				font-size: 0.72rem;
+				font-weight: 700;
+				letter-spacing: 0.12em;
+				color: var(--accent);
+				text-transform: uppercase;
+				margin-bottom: 0.45rem;
+			}
+			.sec-title {
+				font-family: 'Syne', sans-serif;
+				font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+				font-weight: 800;
+				letter-spacing: -0.02em;
+				color: #fff;
+				line-height: 1.1;
+			}
+			.see-all {
+				color: var(--muted);
+				font-size: 0.85rem;
+				text-decoration: none;
+				display: flex;
+				align-items: center;
+				gap: 0.35rem;
+				transition: color 0.2s;
+				cursor: none;
+				white-space: nowrap;
+				background: none;
+				border: none;
+			}
+			.see-all:hover {
+				color: #fff;
+			}
+
+			/* FEATURED GRID */
+			.featured-grid {
+				display: grid;
+				grid-template-columns: 1.4fr 1fr 1fr;
+				gap: 1.2rem;
+			}
+			.feat-big {
+				grid-row: span 2;
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 22px;
+				padding: 2rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				position: relative;
+				overflow: hidden;
+				cursor: none;
+				transition: all 0.3s;
+			}
+			.feat-big::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: radial-gradient(circle at 70% 30%, rgba(123, 92, 255, 0.12), transparent 60%);
+			}
+			.feat-big:hover {
+				border-color: rgba(200, 255, 0, 0.25);
+				transform: translateY(-4px);
+			}
+			.feat-big-emoji {
+				font-size: 7rem;
+				text-align: center;
+				padding: 1rem 0;
+				filter: drop-shadow(0 0 25px rgba(200, 255, 0, 0.2));
+				animation: float 4s ease-in-out infinite;
+			}
+			@keyframes float {
+				0%,
+				100% {
+					transform: translateY(0);
+				}
+				50% {
+					transform: translateY(-10px);
+				}
+			}
+			.feat-small {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 18px;
+				padding: 1.5rem;
+				cursor: none;
+				transition: all 0.3s;
+				position: relative;
+				overflow: hidden;
+			}
+			.feat-small:hover {
+				border-color: rgba(255, 255, 255, 0.14);
+				transform: translateY(-3px);
+			}
+			.feat-small-emoji {
+				font-size: 2.8rem;
+				margin-bottom: 1rem;
+			}
+			.feat-brand {
+				font-size: 0.7rem;
+				font-weight: 700;
+				letter-spacing: 0.09em;
+				color: var(--accent);
+				text-transform: uppercase;
+				margin-bottom: 0.3rem;
+			}
+			.feat-name {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.95rem;
+				color: #fff;
+				margin-bottom: 0.6rem;
+				line-height: 1.25;
+			}
+			.feat-price {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1.05rem;
+				color: #fff;
+			}
+			.feat-price-old {
+				font-size: 0.75rem;
+				color: var(--muted);
+				text-decoration: line-through;
+				margin-right: 0.4rem;
+			}
+
+			/* CATEGORIES PAGE */
+			#page-categories {
+				padding: 5rem 4%;
+			}
+			.cats-hero {
+				text-align: center;
+				margin-bottom: 4rem;
+			}
+			.cats-hero .sec-label {
+				display: block;
+				margin-bottom: 0.6rem;
+			}
+			.cats-hero h1 {
+				font-family: 'Syne', sans-serif;
+				font-size: clamp(2.2rem, 4vw, 3.5rem);
+				font-weight: 800;
+				letter-spacing: -0.03em;
+				color: #fff;
+			}
+			.cats-hero p {
+				color: var(--muted);
+				margin-top: 0.75rem;
+				font-size: 1rem;
+			}
+			.big-cat-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.5rem;
+				margin-bottom: 5rem;
+			}
+			.big-cat-card {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 22px;
+				padding: 3rem 2rem;
+				text-align: center;
+				cursor: none;
+				transition: all 0.3s;
+				position: relative;
+				overflow: hidden;
+			}
+			.big-cat-card::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(135deg, rgba(200, 255, 0, 0.04), rgba(123, 92, 255, 0.04));
+				opacity: 0;
+				transition: opacity 0.3s;
+			}
+			.big-cat-card:hover {
+				border-color: rgba(200, 255, 0, 0.28);
+				transform: translateY(-6px);
+				box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+			}
+			.big-cat-card:hover::before {
+				opacity: 1;
+			}
+			.bcc-emoji {
+				font-size: 4rem;
+				margin-bottom: 1.2rem;
+				display: block;
+			}
+			.bcc-name {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1.2rem;
+				color: #fff;
+				margin-bottom: 0.4rem;
+			}
+			.bcc-count {
+				font-size: 0.8rem;
+				color: var(--muted);
+				margin-bottom: 1.2rem;
+			}
+			.bcc-desc {
+				font-size: 0.82rem;
+				color: var(--muted);
+				line-height: 1.5;
+			}
+
+			/* PRODUCTS PAGE */
+			#page-products {
+				padding: 5rem 4% 4rem;
+			}
+			.products-top {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 2rem;
+				flex-wrap: wrap;
+				gap: 1rem;
+			}
+			.products-title {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.8rem;
+				font-weight: 800;
+				color: #fff;
+				letter-spacing: -0.02em;
+			}
+			.products-subtitle {
+				color: var(--muted);
+				font-size: 0.875rem;
+				margin-top: 0.2rem;
+			}
+			.filter-bar {
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+				flex-wrap: wrap;
+				margin-bottom: 2rem;
+			}
+			.filter-btn {
+				background: var(--card);
+				border: 1px solid var(--border);
+				color: var(--muted);
+				padding: 0.45rem 1rem;
+				border-radius: 100px;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.82rem;
+				font-weight: 500;
+				cursor: none;
+				transition: all 0.2s;
+			}
+			.filter-btn:hover {
+				border-color: var(--border2);
+				color: var(--text);
+			}
+			.filter-btn.active {
+				background: rgba(200, 255, 0, 0.1);
+				border-color: rgba(200, 255, 0, 0.35);
+				color: var(--accent);
+			}
+			.sort-select {
+				background: var(--card);
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 0.45rem 1rem;
+				border-radius: 100px;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.82rem;
+				cursor: none;
+				outline: none;
+				margin-left: auto;
+			}
+			.products-grid {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 1.1rem;
+			}
+			.no-results {
+				grid-column: 1/-1;
+				text-align: center;
+				padding: 5rem 1rem;
+				color: var(--muted);
+			}
+			.no-results-icon {
+				font-size: 3.5rem;
+				margin-bottom: 1rem;
+			}
+			.no-results h3 {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.3rem;
+				font-weight: 700;
+				color: #fff;
+				margin-bottom: 0.5rem;
+			}
+
+			/* PRODUCT CARD */
+			.product-card {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 18px;
+				overflow: hidden;
+				transition: all 0.3s;
+				cursor: none;
+				opacity: 0;
+				transform: translateY(18px);
+			}
+			.product-card.visible {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.product-card:hover {
+				border-color: rgba(255, 255, 255, 0.13);
+				transform: translateY(-5px);
+				box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+			}
+			.prod-img {
+				width: 100%;
+				aspect-ratio: 4/3;
+				background: var(--bg3);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 4.2rem;
+				position: relative;
+			}
+			.prod-img::after {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: radial-gradient(circle at 50% 80%, rgba(123, 92, 255, 0.09), transparent);
+			}
+			.prod-badge {
+				position: absolute;
+				top: 0.65rem;
+				left: 0.65rem;
+				font-size: 0.68rem;
+				font-weight: 700;
+				padding: 0.22rem 0.55rem;
+				border-radius: 100px;
+				letter-spacing: 0.04em;
+				z-index: 1;
+			}
+			.badge-new {
+				background: var(--accent);
+				color: #000;
+			}
+			.badge-hot {
+				background: #ff4d6d;
+				color: #fff;
+			}
+			.badge-sale {
+				background: var(--accent2);
+				color: #fff;
+			}
+			.badge-top {
+				background: #00c9a7;
+				color: #000;
+			}
+			.prod-fav {
+				position: absolute;
+				top: 0.65rem;
+				right: 0.65rem;
+				width: 30px;
+				height: 30px;
+				background: rgba(0, 0, 0, 0.4);
+				border: 1px solid var(--border);
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: none;
+				font-size: 0.85rem;
+				transition: all 0.2s;
+				z-index: 1;
+			}
+			.prod-fav:hover,
+			.prod-fav.active {
+				background: rgba(255, 77, 109, 0.15);
+				border-color: rgba(255, 77, 109, 0.4);
+			}
+			.prod-info {
+				padding: 1.1rem;
+			}
+			.prod-brand {
+				font-size: 0.7rem;
+				font-weight: 700;
+				letter-spacing: 0.09em;
+				color: var(--accent);
+				text-transform: uppercase;
+				margin-bottom: 0.28rem;
+			}
+			.prod-name {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.9rem;
+				color: #fff;
+				margin-bottom: 0.55rem;
+				line-height: 1.3;
+			}
+			.prod-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.28rem;
+				margin-bottom: 0.85rem;
+			}
+			.prod-tag {
+				background: var(--bg3);
+				color: var(--muted);
+				font-size: 0.68rem;
+				padding: 0.18rem 0.48rem;
+				border-radius: 4px;
+			}
+			.prod-bottom {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.prod-price {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1.05rem;
+				color: #fff;
+			}
+			.prod-price-old {
+				font-size: 0.75rem;
+				color: var(--muted);
+				text-decoration: line-through;
+				display: block;
+			}
+			.add-cart-btn {
+				width: 36px;
+				height: 36px;
+				background: var(--accent);
+				border: none;
+				border-radius: 9px;
+				color: #000;
+				font-size: 1.1rem;
+				cursor: none;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 800;
+				transition: all 0.2s;
+				flex-shrink: 0;
+			}
+			.add-cart-btn:hover {
+				background: #d5ff2e;
+				transform: scale(1.1);
+			}
+
+			/* CART PAGE */
+			#page-cart {
+				padding: 5rem 4%;
+			}
+			.cart-layout {
+				display: grid;
+				grid-template-columns: 1fr 360px;
+				gap: 2rem;
+				align-items: start;
+			}
+			.cart-items-title {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.6rem;
+				font-weight: 800;
+				color: #fff;
+				margin-bottom: 1.5rem;
+			}
+			.cart-empty {
+				text-align: center;
+				padding: 5rem 1rem;
+				color: var(--muted);
+			}
+			.cart-empty-icon {
+				font-size: 4rem;
+				margin-bottom: 1rem;
+			}
+			.cart-item {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				padding: 1.2rem;
+				display: flex;
+				align-items: center;
+				gap: 1.2rem;
+				margin-bottom: 0.85rem;
+				transition: all 0.3s;
+			}
+			.cart-item-img {
+				width: 64px;
+				height: 64px;
+				background: var(--bg3);
+				border-radius: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2.2rem;
+				flex-shrink: 0;
+			}
+			.cart-item-info {
+				flex: 1;
+			}
+			.cart-item-brand {
+				font-size: 0.7rem;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				color: var(--accent);
+				text-transform: uppercase;
+				margin-bottom: 0.2rem;
+			}
+			.cart-item-name {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.9rem;
+				color: #fff;
+				margin-bottom: 0.4rem;
+			}
+			.cart-item-price {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1rem;
+				color: var(--accent);
+			}
+			.cart-item-actions {
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+			}
+			.qty-btn {
+				width: 30px;
+				height: 30px;
+				background: var(--bg3);
+				border: 1px solid var(--border);
+				color: var(--text);
+				border-radius: 8px;
+				cursor: none;
+				font-size: 0.9rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s;
+			}
+			.qty-btn:hover {
+				background: var(--card2);
+				border-color: var(--border2);
+			}
+			.qty-num {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.9rem;
+				color: #fff;
+				min-width: 20px;
+				text-align: center;
+			}
+			.remove-btn {
+				width: 30px;
+				height: 30px;
+				background: rgba(255, 77, 109, 0.1);
+				border: 1px solid rgba(255, 77, 109, 0.2);
+				color: #ff4d6d;
+				border-radius: 8px;
+				cursor: none;
+				font-size: 0.85rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s;
+			}
+			.remove-btn:hover {
+				background: rgba(255, 77, 109, 0.2);
+			}
+
+			.cart-summary {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 20px;
+				padding: 1.8rem;
+				position: sticky;
+				top: 86px;
+			}
+			.summary-title {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.1rem;
+				font-weight: 800;
+				color: #fff;
+				margin-bottom: 1.5rem;
+			}
+			.summary-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 0.9rem;
+				font-size: 0.875rem;
+			}
+			.summary-row span:first-child {
+				color: var(--muted);
+			}
+			.summary-row span:last-child {
+				color: #fff;
+				font-weight: 500;
+			}
+			.summary-divider {
+				height: 1px;
+				background: var(--border);
+				margin: 1.2rem 0;
+			}
+			.summary-total {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 1.5rem;
+			}
+			.summary-total span:first-child {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				color: #fff;
+			}
+			.summary-total span:last-child {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1.3rem;
+				color: var(--accent);
+			}
+			.promo-wrap {
+				display: flex;
+				gap: 0.6rem;
+				margin-bottom: 1.5rem;
+			}
+			.promo-input {
+				flex: 1;
+				background: var(--bg3);
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 0.6rem 0.9rem;
+				border-radius: 10px;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 0.85rem;
+				outline: none;
+			}
+			.promo-input:focus {
+				border-color: rgba(200, 255, 0, 0.3);
+			}
+			.promo-apply {
+				background: var(--accent);
+				color: #000;
+				border: none;
+				padding: 0.6rem 1rem;
+				border-radius: 10px;
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.82rem;
+				cursor: none;
+			}
+			.checkout-btn {
+				width: 100%;
+				background: var(--accent);
+				color: #000;
+				border: none;
+				padding: 1rem;
+				border-radius: 13px;
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1rem;
+				cursor: none;
+				transition: all 0.2s;
+				letter-spacing: 0.02em;
+			}
+			.checkout-btn:hover {
+				background: #d5ff2e;
+			}
+			.checkout-btn:disabled {
+				background: var(--card2);
+				color: var(--muted);
+				cursor: not-allowed;
+			}
+			.delivery-info {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: rgba(200, 255, 0, 0.05);
+				border: 1px solid rgba(200, 255, 0, 0.12);
+				border-radius: 10px;
+				padding: 0.75rem 1rem;
+				margin-top: 1rem;
+			}
+			.delivery-info span {
+				font-size: 0.8rem;
+				color: var(--muted);
+			}
+			.delivery-info strong {
+				color: var(--accent);
+				font-weight: 600;
+			}
+
+			/* MODALS */
+			.overlay {
+				position: fixed;
+				inset: 0;
+				background: rgba(0, 0, 0, 0.72);
+				backdrop-filter: blur(10px);
+				z-index: 2000;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.3s;
+				padding: 1rem;
+			}
+			.overlay.open {
+				opacity: 1;
+				pointer-events: all;
+			}
+			.modal {
+				background: var(--card);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 24px;
+				padding: 2.2rem;
+				width: 100%;
+				max-width: 460px;
+				position: relative;
+				transform: scale(0.92) translateY(16px);
+				transition: transform 0.3s;
+				max-height: 90vh;
+				overflow-y: auto;
+			}
+			.overlay.open .modal {
+				transform: scale(1) translateY(0);
+			}
+			.modal-x {
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
+				background: var(--bg3);
+				border: none;
+				color: var(--muted);
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				cursor: none;
+				font-size: 0.9rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s;
+			}
+			.modal-x:hover {
+				background: var(--card2);
+				color: #fff;
+			}
+			.modal-prod-img {
+				font-size: 5rem;
+				text-align: center;
+				padding: 1.3rem;
+				background: var(--bg3);
+				border-radius: 16px;
+				margin-bottom: 1.4rem;
+			}
+			.modal-brand {
+				font-size: 0.72rem;
+				font-weight: 700;
+				letter-spacing: 0.09em;
+				color: var(--accent);
+				text-transform: uppercase;
+				margin-bottom: 0.3rem;
+			}
+			.modal h3 {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.35rem;
+				font-weight: 800;
+				color: #fff;
+				margin-bottom: 0.4rem;
+			}
+			.modal-price-row {
+				display: flex;
+				align-items: center;
+				gap: 0.8rem;
+				margin-bottom: 1.5rem;
+			}
+			.modal-price {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.65rem;
+				font-weight: 800;
+				color: var(--accent);
+			}
+			.modal-price-old {
+				font-family: 'Syne', sans-serif;
+				font-size: 0.9rem;
+				font-weight: 700;
+				color: var(--muted);
+				text-decoration: line-through;
+			}
+			.pay-label {
+				font-size: 0.75rem;
+				font-weight: 700;
+				letter-spacing: 0.09em;
+				color: var(--muted);
+				text-transform: uppercase;
+				margin-bottom: 0.75rem;
+			}
+			.pay-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 0.65rem;
+				margin-bottom: 1.4rem;
+			}
+			.pay-opt {
+				background: var(--bg3);
+				border: 1.5px solid var(--border);
+				border-radius: 12px;
+				padding: 0.85rem;
+				text-align: center;
+				cursor: none;
+				transition: all 0.2s;
+				color: var(--text);
+			}
+			.pay-opt:hover,
+			.pay-opt.sel {
+				border-color: rgba(200, 255, 0, 0.4);
+				background: rgba(200, 255, 0, 0.05);
+				color: #fff;
+			}
+			.pay-opt-ico {
+				font-size: 1.4rem;
+				display: block;
+				margin-bottom: 0.25rem;
+			}
+			.pay-opt-name {
+				font-size: 0.8rem;
+				font-weight: 500;
+			}
+			.qty-row {
+				display: flex;
+				align-items: center;
+				gap: 0.85rem;
+				margin-bottom: 1.4rem;
+			}
+			.qty-row label {
+				font-size: 0.82rem;
+				color: var(--muted);
+			}
+			.qty-ctrl {
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+			}
+			.qty-ctrl button {
+				width: 32px;
+				height: 32px;
+				background: var(--bg3);
+				border: 1px solid var(--border);
+				color: #fff;
+				border-radius: 8px;
+				cursor: none;
+				font-size: 1rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s;
+			}
+			.qty-ctrl button:hover {
+				background: var(--card2);
+			}
+			.qty-val {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 1rem;
+				color: #fff;
+				min-width: 28px;
+				text-align: center;
+			}
+			.order-submit {
+				width: 100%;
+				background: var(--accent);
+				color: #000;
+				border: none;
+				padding: 0.95rem;
+				border-radius: 12px;
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 0.95rem;
+				cursor: none;
+				transition: all 0.2s;
+				letter-spacing: 0.02em;
+			}
+			.order-submit:hover {
+				background: #d5ff2e;
+			}
+
+			/* SUCCESS */
+			.success-modal {
+				background: var(--card);
+				border: 1px solid rgba(200, 255, 0, 0.2);
+				border-radius: 24px;
+				padding: 2.8rem 2.2rem;
+				width: 100%;
+				max-width: 370px;
+				text-align: center;
+				transform: scale(0.92) translateY(16px);
+				transition: transform 0.3s;
+			}
+			.overlay.open .success-modal {
+				transform: scale(1) translateY(0);
+			}
+			.success-ring {
+				width: 80px;
+				height: 80px;
+				background: rgba(200, 255, 0, 0.1);
+				border: 2px solid rgba(200, 255, 0, 0.35);
+				border-radius: 50%;
+				font-size: 2.2rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 0 auto 1.4rem;
+				animation: pop 0.5s ease both;
+			}
+			@keyframes pop {
+				0% {
+					transform: scale(0);
+				}
+				70% {
+					transform: scale(1.15);
+				}
+				100% {
+					transform: scale(1);
+				}
+			}
+			.success-modal h3 {
+				font-family: 'Syne', sans-serif;
+				font-size: 1.55rem;
+				font-weight: 800;
+				color: #fff;
+				margin-bottom: 0.6rem;
+			}
+			.success-modal p {
+				color: var(--muted);
+				font-size: 0.875rem;
+				line-height: 1.6;
+				margin-bottom: 1.3rem;
+			}
+			.delivery-pill {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.45rem;
+				background: rgba(200, 255, 0, 0.08);
+				border: 1px solid rgba(200, 255, 0, 0.2);
+				color: var(--accent);
+				padding: 0.55rem 1.1rem;
+				border-radius: 100px;
+				font-size: 0.82rem;
+				font-weight: 600;
+				margin-bottom: 1.4rem;
+			}
+			.success-info {
+				background: var(--bg3);
+				border-radius: 12px;
+				padding: 1rem;
+				margin-bottom: 1.4rem;
+				text-align: left;
+			}
+			.si-row {
+				display: flex;
+				justify-content: space-between;
+				font-size: 0.82rem;
+				margin-bottom: 0.4rem;
+			}
+			.si-row span:first-child {
+				color: var(--muted);
+			}
+			.si-row span:last-child {
+				color: #fff;
+				font-weight: 500;
+			}
+
+			/* TOAST */
+			.toast {
+				position: fixed;
+				bottom: 2rem;
+				right: 2rem;
+				background: var(--card2);
+				border: 1px solid rgba(200, 255, 0, 0.2);
+				border-radius: 14px;
+				padding: 0.85rem 1.3rem;
+				display: flex;
+				align-items: center;
+				gap: 0.8rem;
+				z-index: 3000;
+				transform: translateY(80px);
+				opacity: 0;
+				transition: all 0.4s;
+				max-width: 320px;
+			}
+			.toast.show {
+				transform: translateY(0);
+				opacity: 1;
+			}
+			.toast-icon {
+				font-size: 1.2rem;
+			}
+			.toast-text {
+				font-size: 0.85rem;
+				color: #fff;
+				font-weight: 500;
+			}
+
+			/* FOOTER */
+			footer {
+				background: var(--bg2);
+				border-top: 1px solid var(--border);
+				padding: 4rem 4% 2.5rem;
+			}
+			.footer-grid {
+				display: grid;
+				grid-template-columns: 1.8fr 1fr 1fr 1fr;
+				gap: 3rem;
+				margin-bottom: 3rem;
+			}
+			.footer-logo {
+				font-family: 'Syne', sans-serif;
+				font-weight: 800;
+				font-size: 1.3rem;
+				color: #fff;
+				margin-bottom: 0.9rem;
+			}
+			.footer-logo span {
+				color: var(--accent);
+			}
+			.footer-desc {
+				color: var(--muted);
+				font-size: 0.85rem;
+				line-height: 1.7;
+				max-width: 260px;
+			}
+			.footer-col h4 {
+				font-family: 'Syne', sans-serif;
+				font-weight: 700;
+				font-size: 0.8rem;
+				letter-spacing: 0.09em;
+				text-transform: uppercase;
+				color: #fff;
+				margin-bottom: 1rem;
+			}
+			.footer-col ul {
+				list-style: none;
+			}
+			.footer-col ul li {
+				margin-bottom: 0.55rem;
+			}
+			.footer-col ul li a {
+				color: var(--muted);
+				font-size: 0.85rem;
+				text-decoration: none;
+				transition: color 0.2s;
+				cursor: none;
+			}
+			.footer-col ul li a:hover {
+				color: #fff;
+			}
+			.footer-bottom {
+				border-top: 1px solid var(--border);
+				padding-top: 1.8rem;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				color: var(--muted);
+				font-size: 0.8rem;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+			}
+
+			/* ANIMATIONS */
+			@keyframes fadeUp {
+				from {
+					opacity: 0;
+					transform: translateY(22px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			/* RESPONSIVE */
+			@media (max-width: 1100px) {
+				.products-grid {
+					grid-template-columns: repeat(3, 1fr);
+				}
+				.featured-grid {
+					grid-template-columns: 1fr 1fr;
+				}
+				.feat-big {
+					grid-row: span 1;
+				}
+				.big-cat-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.footer-grid {
+					grid-template-columns: 1fr 1fr;
+					gap: 2rem;
+				}
+				.cart-layout {
+					grid-template-columns: 1fr;
+				}
+				.hero-floats {
+					display: none;
+				}
+			}
+			@media (max-width: 768px) {
+				.nav-center,
+				.search-wrap {
+					display: none;
+				}
+				.ham {
+					display: flex;
+				}
+				nav {
+					padding: 0 4%;
+				}
+				.products-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.big-cat-grid {
+					grid-template-columns: 1fr 1fr;
+				}
+				.featured-grid {
+					grid-template-columns: 1fr;
+				}
+				.hero h1 {
+					font-size: 2.5rem;
+				}
+				.cart-layout {
+					grid-template-columns: 1fr;
+				}
+				.footer-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+			@media (max-width: 480px) {
+				.products-grid {
+					grid-template-columns: 1fr 1fr;
+				}
+				.big-cat-grid {
+					grid-template-columns: 1fr;
+				}
+				.pay-grid {
+					grid-template-columns: 1fr 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cursor" id="cur"></div>
+		<div class="cursor-ring" id="ring"></div>
+
+		<!-- NAV -->
+		<nav>
+			<a
+				class="logo"
+				href="#"
+				onclick="
+					showPage('home');
+					return false;
+				"
+				>NEXUS<span>.</span></a
+			>
+			<div class="nav-center">
+				<button class="nav-btn active" id="nb-home" onclick="showPage('home')">🏠 Bosh sahifa</button>
+				<button class="nav-btn" id="nb-products" onclick="showPage('products', 'all')">📦 Mahsulotlar</button>
+				<button class="nav-btn" id="nb-categories" onclick="showPage('categories')">📂 Kategoriyalar</button>
+				<button class="nav-btn" id="nb-cart" onclick="showPage('cart')">🛒 Savat</button>
+			</div>
+			<div class="nav-right">
+				<div class="search-wrap">
+					<span class="search-icon">🔍</span>
+					<input
+						class="search-input"
+						id="mainSearch"
+						placeholder="Mahsulot qidirish..."
+						oninput="doSearch(this.value)"
+						onfocus="if (this.value.length > 0) doSearch(this.value);" />
+				</div>
+				<button class="cart-btn" onclick="showPage('cart')">🛒 Savat <span class="cart-badge" id="cartBadge">0</span></button>
+				<button class="ham" id="hamBtn" onclick="toggleMobile()">☰</button>
+			</div>
+		</nav>
+
+		<!-- MOBILE MENU -->
+		<div class="mobile-menu" id="mobileMenu">
+			<button
+				class="mobile-nav-btn"
+				onclick="
+					showPage('home');
+					toggleMobile();
+				">
+				🏠 Bosh sahifa
+			</button>
+			<button
+				class="mobile-nav-btn"
+				onclick="
+					showPage('products', 'all');
+					toggleMobile();
+				">
+				📦 Mahsulotlar
+			</button>
+			<button
+				class="mobile-nav-btn"
+				onclick="
+					showPage('categories');
+					toggleMobile();
+				">
+				📂 Kategoriyalar
+			</button>
+			<button
+				class="mobile-nav-btn"
+				onclick="
+					showPage('cart');
+					toggleMobile();
+				">
+				🛒 Savat
+			</button>
+			<input
+				class="mobile-search"
+				placeholder="Mahsulot qidirish..."
+				oninput="
+					doSearch(this.value);
+					if (this.value.length > 0) {
+						showPage('products', 'search');
+					}
+				" />
+		</div>
+
+		<div class="page">
+			<!-- ===== HOME PAGE ===== -->
+			<div id="page-home">
+				<section class="hero">
+					<div class="hero-bg"></div>
+					<div class="hero-grid"></div>
+					<div class="hero-content">
+						<div class="hero-badge"><span class="bdot"></span> Premium Tech Store — Andijan</div>
+						<h1>Kelajak<em>sizda boshlanadi</em></h1>
+						<p class="hero-sub">
+							Eng yangi noutbuklar, klaviatura, sichqoncha va aksessuarlar. Hozir buyurtma bering — tez orada yetkazib beramiz!
+						</p>
+						<div class="hero-btns">
+							<button class="btn-primary" onclick="showPage('products', 'all')">Xarid qilish →</button>
+							<button class="btn-ghost" onclick="showPage('categories')">Kategoriyalar</button>
+						</div>
+					</div>
+					<div class="hero-floats">
+						<div class="float-card">
+							<div class="float-num">1200+</div>
+							<div class="float-label">Mahsulot</div>
+						</div>
+						<div class="float-card">
+							<div class="float-num">48h</div>
+							<div class="float-label">Yetkazib berish</div>
+						</div>
+						<div class="float-card">
+							<div class="float-num">4.9★</div>
+							<div class="float-label">Reyting</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="ticker-wrap">
+					<div class="ticker-track">
+						<span class="tick-item">APPLE <span class="tick-sep">✦</span></span>
+						<span class="tick-item">SAMSUNG <span class="tick-sep">✦</span></span>
+						<span class="tick-item">LENOVO <span class="tick-sep">✦</span></span>
+						<span class="tick-item">DELL <span class="tick-sep">✦</span></span>
+						<span class="tick-item">LOGITECH <span class="tick-sep">✦</span></span>
+						<span class="tick-item">ASUS <span class="tick-sep">✦</span></span>
+						<span class="tick-item">RAZER <span class="tick-sep">✦</span></span>
+						<span class="tick-item">HP <span class="tick-sep">✦</span></span>
+						<span class="tick-item">KINGSTON <span class="tick-sep">✦</span></span>
+						<span class="tick-item">SANDISK <span class="tick-sep">✦</span></span>
+						<span class="tick-item">APPLE <span class="tick-sep">✦</span></span>
+						<span class="tick-item">SAMSUNG <span class="tick-sep">✦</span></span>
+						<span class="tick-item">LENOVO <span class="tick-sep">✦</span></span>
+						<span class="tick-item">DELL <span class="tick-sep">✦</span></span>
+						<span class="tick-item">LOGITECH <span class="tick-sep">✦</span></span>
+						<span class="tick-item">ASUS <span class="tick-sep">✦</span></span>
+						<span class="tick-item">RAZER <span class="tick-sep">✦</span></span>
+						<span class="tick-item">HP <span class="tick-sep">✦</span></span>
+						<span class="tick-item">KINGSTON <span class="tick-sep">✦</span></span>
+						<span class="tick-item">SANDISK <span class="tick-sep">✦</span></span>
+					</div>
+				</div>
+
+				<section class="featured-section">
+					<div class="sec-head">
+						<div>
+							<div class="sec-label">Tavsiya etiladi</div>
+							<div class="sec-title">Eng ommabop</div>
+						</div>
+						<button class="see-all" onclick="showPage('products', 'all')">Barchasini ko'rish →</button>
+					</div>
+					<div class="featured-grid">
+						<div class="feat-big" onclick="openOrder('MacBook Pro M4 Max', '💻', 'Apple', '28 990 000', '30 500 000')">
+							<div>
+								<div class="feat-brand">Apple</div>
+								<div
+									class="feat-name"
+									style="
+										font-family: 'Syne', sans-serif;
+										font-weight: 800;
+										font-size: 1.4rem;
+										color: #fff;
+										line-height: 1.1;
+										margin-bottom: 0.6rem;
+									">
+									MacBook Pro<br />M4 Max
+								</div>
+								<p style="color: var(--muted); font-size: 0.82rem; line-height: 1.5">
+									Eng kuchli M4 Max chipi. Professional ish uchun. 16" Liquid Retina XDR ekran.
+								</p>
+							</div>
+							<div class="feat-big-emoji">💻</div>
+							<div>
+								<div style="font-size: 0.75rem; color: var(--muted); text-decoration: line-through; margin-bottom: 0.2rem">
+									30 500 000 so'm
+								</div>
+								<div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--accent)">
+									28 990 000 so'm
+								</div>
+							</div>
+						</div>
+						<div class="feat-small" onclick="openOrder('Razer BlackWidow V4 Pro', '⌨️', 'Razer', '2 490 000', '')">
+							<div class="feat-small-emoji">⌨️</div>
+							<div class="feat-brand">Razer</div>
+							<div class="feat-name">BlackWidow V4 Pro Mechanical</div>
+							<div class="feat-price"><span class="feat-price-old"></span>2 490 000 so'm</div>
+						</div>
+						<div class="feat-small" onclick="openOrder('Logitech MX Master 3S', '🖱️', 'Logitech', '790 000', '980 000')">
+							<div class="feat-small-emoji">🖱️</div>
+							<div class="feat-brand">Logitech</div>
+							<div class="feat-name">MX Master 3S Wireless</div>
+							<div class="feat-price"><span class="feat-price-old">980 000</span> 790 000 so'm</div>
+						</div>
+						<div class="feat-small" onclick="openOrder('ASUS ROG Strix G16', '💻', 'ASUS', '32 990 000', '')">
+							<div class="feat-small-emoji">🎮</div>
+							<div class="feat-brand">ASUS ROG</div>
+							<div class="feat-name">Strix G16 Gaming RTX 4070</div>
+							<div class="feat-price">32 990 000 so'm</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- CAT MINI SECTION -->
+				<section style="padding: 0 4% 5rem">
+					<div class="sec-head">
+						<div>
+							<div class="sec-label">Kategoriyalar</div>
+							<div class="sec-title">Nima qidiryapsiz?</div>
+						</div>
+						<button class="see-all" onclick="showPage('categories')">Barchasini →</button>
+					</div>
+					<div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem">
+						<div
+							onclick="showPage('products', 'noutbuklar')"
+							style="
+								background: var(--card);
+								border: 1px solid var(--border);
+								border-radius: 16px;
+								padding: 1.6rem 1rem;
+								text-align: center;
+								cursor: none;
+								transition: all 0.3s;
+							"
+							onmouseover="
+								this.style.borderColor = 'rgba(200,255,0,.28)';
+								this.style.transform = 'translateY(-4px)';
+							"
+							onmouseout="
+								this.style.borderColor = 'var(--border)';
+								this.style.transform = 'translateY(0)';
+							">
+							<div style="font-size: 2.4rem; margin-bottom: 0.8rem">💻</div>
+							<div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: #fff">Noutbuklar</div>
+							<div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem">48 ta</div>
+						</div>
+						<div
+							onclick="showPage('products', 'monitorlar')"
+							style="
+								background: var(--card);
+								border: 1px solid var(--border);
+								border-radius: 16px;
+								padding: 1.6rem 1rem;
+								text-align: center;
+								cursor: none;
+								transition: all 0.3s;
+							"
+							onmouseover="
+								this.style.borderColor = 'rgba(200,255,0,.28)';
+								this.style.transform = 'translateY(-4px)';
+							"
+							onmouseout="
+								this.style.borderColor = 'var(--border)';
+								this.style.transform = 'translateY(0)';
+							">
+							<div style="font-size: 2.4rem; margin-bottom: 0.8rem">🖥️</div>
+							<div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: #fff">Monitorlar</div>
+							<div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem">32 ta</div>
+						</div>
+						<div
+							onclick="showPage('products', 'klaviaturalar')"
+							style="
+								background: var(--card);
+								border: 1px solid var(--border);
+								border-radius: 16px;
+								padding: 1.6rem 1rem;
+								text-align: center;
+								cursor: none;
+								transition: all 0.3s;
+							"
+							onmouseover="
+								this.style.borderColor = 'rgba(200,255,0,.28)';
+								this.style.transform = 'translateY(-4px)';
+							"
+							onmouseout="
+								this.style.borderColor = 'var(--border)';
+								this.style.transform = 'translateY(0)';
+							">
+							<div style="font-size: 2.4rem; margin-bottom: 0.8rem">⌨️</div>
+							<div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: #fff">Klaviaturalar</div>
+							<div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem">65 ta</div>
+						</div>
+						<div
+							onclick="showPage('products', 'sichqonchalar')"
+							style="
+								background: var(--card);
+								border: 1px solid var(--border);
+								border-radius: 16px;
+								padding: 1.6rem 1rem;
+								text-align: center;
+								cursor: none;
+								transition: all 0.3s;
+							"
+							onmouseover="
+								this.style.borderColor = 'rgba(200,255,0,.28)';
+								this.style.transform = 'translateY(-4px)';
+							"
+							onmouseout="
+								this.style.borderColor = 'var(--border)';
+								this.style.transform = 'translateY(0)';
+							">
+							<div style="font-size: 2.4rem; margin-bottom: 0.8rem">🖱️</div>
+							<div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: #fff">Sichqonchalar</div>
+							<div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem">54 ta</div>
+						</div>
+						<div
+							onclick="showPage('products', 'flesh')"
+							style="
+								background: var(--card);
+								border: 1px solid var(--border);
+								border-radius: 16px;
+								padding: 1.6rem 1rem;
+								text-align: center;
+								cursor: none;
+								transition: all 0.3s;
+							"
+							onmouseover="
+								this.style.borderColor = 'rgba(200,255,0,.28)';
+								this.style.transform = 'translateY(-4px)';
+							"
+							onmouseout="
+								this.style.borderColor = 'var(--border)';
+								this.style.transform = 'translateY(0)';
+							">
+							<div style="font-size: 2.4rem; margin-bottom: 0.8rem">💾</div>
+							<div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: #fff">Flesh karta</div>
+							<div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem">90 ta</div>
+						</div>
+					</div>
+				</section>
+
+				<footer id="footer">
+					<div class="footer-grid">
+						<div>
+							<div class="footer-logo">NEXUS<span>.</span></div>
+							<p class="footer-desc">Andijondagi eng yirik premium texnologiya do'koni. Sifat, tezlik va ishonch.</p>
+						</div>
+						<div class="footer-col">
+							<h4>Mahsulotlar</h4>
+							<ul>
+								<li>
+									<a
+										href="#"
+										onclick="
+											showPage('products', 'noutbuklar');
+											return false;
+										"
+										>Noutbuklar</a
+									>
+								</li>
+								<li>
+									<a
+										href="#"
+										onclick="
+											showPage('products', 'monitorlar');
+											return false;
+										"
+										>Monitorlar</a
+									>
+								</li>
+								<li>
+									<a
+										href="#"
+										onclick="
+											showPage('products', 'klaviaturalar');
+											return false;
+										"
+										>Klaviaturalar</a
+									>
+								</li>
+								<li>
+									<a
+										href="#"
+										onclick="
+											showPage('products', 'sichqonchalar');
+											return false;
+										"
+										>Sichqonchalar</a
+									>
+								</li>
+								<li>
+									<a
+										href="#"
+										onclick="
+											showPage('products', 'flesh');
+											return false;
+										"
+										>Flesh kartalar</a
+									>
+								</li>
+							</ul>
+						</div>
+						<div class="footer-col">
+							<h4>Xizmat</h4>
+							<ul>
+								<li><a href="#">Yetkazib berish</a></li>
+								<li><a href="#">Kafolat</a></li>
+								<li><a href="#">Qaytarish</a></li>
+								<li><a href="#">Texnik yordam</a></li>
+							</ul>
+						</div>
+						<div class="footer-col">
+							<h4>Aloqa</h4>
+							<ul>
+								<li><a href="#">+998 71 123 45 67</a></li>
+								<li><a href="#">info@nexus.uz</a></li>
+								<li><a href="#">Andijon, Malochniy</a></li>
+								<li><a href="#">@nexusstore</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-bottom">
+						<span>© 2025 NEXUS Store By Akbarxon</span><span>Premium Sifat • Tezkor Yetkazib Berish</span>
+					</div>
+				</footer>
+			</div>
+
+			<!-- ===== CATEGORIES PAGE ===== -->
+			<div id="page-categories">
+				<div class="cats-hero">
+					<span class="sec-label">Kategoriyalar</span>
+					<h1>Nima qidiryapsiz?</h1>
+					<p>Kerakli kategoriyani tanlang — mahsulotlar darhol chiqadi</p>
+				</div>
+				<div class="big-cat-grid">
+					<div class="big-cat-card" onclick="showPage('products', 'noutbuklar')">
+						<span class="bcc-emoji">💻</span>
+						<div class="bcc-name">Noutbuklar</div>
+						<div class="bcc-count">48 mahsulot</div>
+						<div class="bcc-desc">MacBook, ThinkPad, ROG, ZenBook va boshqa premium noutbuklar</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'monitorlar')">
+						<span class="bcc-emoji">🖥️</span>
+						<div class="bcc-name">Monitorlar</div>
+						<div class="bcc-count">32 mahsulot</div>
+						<div class="bcc-desc">4K, IPS, OLED, gaming monitorlar — Dell, LG, Samsung, ASUS</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'klaviaturalar')">
+						<span class="bcc-emoji">⌨️</span>
+						<div class="bcc-name">Klaviaturalar</div>
+						<div class="bcc-count">65 mahsulot</div>
+						<div class="bcc-desc">Mexanik, membranali, simsiz — Razer, Logitech, Keychron, Corsair</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'sichqonchalar')">
+						<span class="bcc-emoji">🖱️</span>
+						<div class="bcc-name">Sichqonchalar</div>
+						<div class="bcc-count">54 mahsulot</div>
+						<div class="bcc-desc">Gaming, ofis, simsiz sichqonchalar — Logitech, Razer, SteelSeries</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'flesh')">
+						<span class="bcc-emoji">💾</span>
+						<div class="bcc-name">Flesh kartalar</div>
+						<div class="bcc-count">90 mahsulot</div>
+						<div class="bcc-desc">USB 3.2, Type-C, 32GB–2TB — Samsung, Kingston, SanDisk</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'qulaqchinlar')">
+						<span class="bcc-emoji">🎧</span>
+						<div class="bcc-name">Qulaqchinlar</div>
+						<div class="bcc-count">38 mahsulot</div>
+						<div class="bcc-desc">ANC, gaming, simsiz qulaqchinlar — Sony, Bose, HyperX</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'aksessuarlar')">
+						<span class="bcc-emoji">🔌</span>
+						<div class="bcc-name">Aksessuarlar</div>
+						<div class="bcc-count">120 mahsulot</div>
+						<div class="bcc-desc">USB-C hub, kabl, adapter, stend va ko'p narsa</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'xotira')">
+						<span class="bcc-emoji">💿</span>
+						<div class="bcc-name">Xotira & SSD</div>
+						<div class="bcc-count">75 mahsulot</div>
+						<div class="bcc-desc">SSD, HDD, RAM — Samsung, WD, Crucial, Kingston</div>
+					</div>
+					<div class="big-cat-card" onclick="showPage('products', 'sumka')">
+						<span class="bcc-emoji">🎒</span>
+						<div class="bcc-name">Sumka & Himoya</div>
+						<div class="bcc-count">44 mahsulot</div>
+						<div class="bcc-desc">Noutbuk sumkasi, chexol, teri qoplamalar</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ===== PRODUCTS PAGE ===== -->
+			<div id="page-products">
+				<div class="products-top">
+					<div>
+						<div class="products-title" id="prodPageTitle">Barcha mahsulotlar</div>
+						<div class="products-subtitle" id="prodPageSub">Jami <span id="prodCount">0</span> mahsulot</div>
+					</div>
+				</div>
+				<div class="filter-bar" id="filterBar">
+					<button class="filter-btn active" onclick="filterCat('all', this)">Barchasi</button>
+					<button class="filter-btn" onclick="filterCat('noutbuklar', this)">💻 Noutbuklar</button>
+					<button class="filter-btn" onclick="filterCat('monitorlar', this)">🖥️ Monitorlar</button>
+					<button class="filter-btn" onclick="filterCat('klaviaturalar', this)">⌨️ Klaviaturalar</button>
+					<button class="filter-btn" onclick="filterCat('sichqonchalar', this)">🖱️ Sichqonchalar</button>
+					<button class="filter-btn" onclick="filterCat('flesh', this)">💾 Flesh</button>
+					<button class="filter-btn" onclick="filterCat('qulaqchinlar', this)">🎧 Qulaqchinlar</button>
+					<button class="filter-btn" onclick="filterCat('aksessuarlar', this)">🔌 Aksessuarlar</button>
+					<button class="filter-btn" onclick="filterCat('xotira', this)">💿 Xotira</button>
+					<select class="sort-select" onchange="sortProds(this.value)">
+						<option value="default">Saralash</option>
+						<option value="price-asc">Narx: arzondan</option>
+						<option value="price-desc">Narx: qimmatdan</option>
+						<option value="name">Nom bo'yicha</option>
+					</select>
+				</div>
+				<div class="products-grid" id="productsGrid"></div>
+			</div>
+
+			<!-- ===== CART PAGE ===== -->
+			<div id="page-cart">
+				<div
+					style="
+						font-family: 'Syne', sans-serif;
+						font-size: 2rem;
+						font-weight: 800;
+						color: #fff;
+						margin-bottom: 2rem;
+						letter-spacing: -0.02em;
+					">
+					🛒 Savatingiz
+				</div>
+				<div class="cart-layout">
+					<div>
+						<div id="cartItemsList"></div>
+					</div>
+					<div class="cart-summary" id="cartSummary">
+						<div class="summary-title">Buyurtma xulosasi</div>
+						<div class="summary-row"><span>Mahsulotlar</span><span id="sumItems">0 ta</span></div>
+						<div class="summary-row"><span>Yetkazib berish</span><span style="color: var(--accent)">Bepul</span></div>
+						<div class="summary-row"><span>Chegirma</span><span id="sumDiscount">—</span></div>
+						<div class="summary-divider"></div>
+						<div class="summary-total"><span>Jami</span><span id="sumTotal">0 so'm</span></div>
+						<div class="promo-wrap">
+							<input class="promo-input" id="promoInput" placeholder="Promo kod" />
+							<button class="promo-apply" onclick="applyPromo()">Qo'llash</button>
+						</div>
+						<button class="checkout-btn" id="checkoutBtn" onclick="checkout()">Buyurtma berish →</button>
+						<div class="delivery-info">
+							🚚 <span>Buyurtma berganingizdan so'ng <strong>1–2 kun</strong> ichida yetkazib beramiz</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end .page -->
+
+		<!-- ORDER MODAL -->
+		<div class="overlay" id="orderOverlay">
+			<div class="modal">
+				<button class="modal-x" onclick="closeOverlay('orderOverlay')">✕</button>
+				<div class="modal-prod-img" id="mo-emoji">💻</div>
+				<div class="modal-brand" id="mo-brand"></div>
+				<h3 id="mo-name"></h3>
+				<div class="modal-price-row">
+					<div class="modal-price" id="mo-price"></div>
+					<div class="modal-price-old" id="mo-old"></div>
+				</div>
+				<div class="qty-row">
+					<label>Miqdori:</label>
+					<div class="qty-ctrl">
+						<button onclick="changeQty(-1)">−</button>
+						<span class="qty-val" id="mo-qty">1</span>
+						<button onclick="changeQty(1)">+</button>
+					</div>
+				</div>
+				<div class="pay-label">To'lov usuli</div>
+				<div class="pay-grid">
+					<div class="pay-opt sel" onclick="selPay(this)">
+						<span class="pay-opt-ico">💳</span><span class="pay-opt-name">Karta</span>
+					</div>
+					<div class="pay-opt" onclick="selPay(this)">
+						<span class="pay-opt-ico">💵</span><span class="pay-opt-name">Naqd</span>
+					</div>
+					<div class="pay-opt" onclick="selPay(this)">
+						<span class="pay-opt-ico">📱</span><span class="pay-opt-name">Click / Payme</span>
+					</div>
+					<div class="pay-opt" onclick="selPay(this)">
+						<span class="pay-opt-ico">📦</span><span class="pay-opt-name">Olganingizda</span>
+					</div>
+				</div>
+				<button class="order-submit" onclick="placeOrder()">✓ Buyurtma berish</button>
+			</div>
+		</div>
+
+		<!-- SUCCESS MODAL -->
+		<div class="overlay" id="successOverlay">
+			<div class="success-modal">
+				<div class="success-ring">✓</div>
+				<h3>Buyurtma qabul qilindi!</h3>
+				<p>Buyurtmangiz muvaffaqiyatli qabul qilindi. Operatorimiz 15 daqiqa ichida siz bilan bog'lanadi.</p>
+				<div class="delivery-pill">🚚 Tez orada yetkazib beriladi!</div>
+				<div class="success-info">
+					<div class="si-row"><span>Buyurtma raqami</span><span id="orderNum">#NX-0000</span></div>
+					<div class="si-row"><span>Yetkazib berish</span><span>1–2 kun</span></div>
+					<div class="si-row"><span>To'lov</span><span id="orderPay">Karta</span></div>
+					<div class="si-row"><span>Narx</span><span id="orderTotal">—</span></div>
+				</div>
+				<button class="order-submit" onclick="closeOverlay('successOverlay')">Davom etish</button>
+			</div>
+		</div>
+
+		<!-- TOAST -->
+		<div class="toast" id="toast">
+			<span class="toast-icon" id="toastIcon">✓</span>
+			<span class="toast-text" id="toastText"></span>
+		</div>
+
+		<script>
+			// ===== CURSOR =====
+			const cur = document.getElementById('cur'),
+				ring = document.getElementById('ring');
+			let mx = 0,
+				my = 0,
+				rx = 0,
+				ry = 0;
+			document.addEventListener('mousemove', e => {
+				mx = e.clientX;
+				my = e.clientY;
+				cur.style.left = mx - 4.5 + 'px';
+				cur.style.top = my - 4.5 + 'px';
+			});
+			(function animRing() {
+				rx += (mx - rx) * 0.12;
+				ry += (my - ry) * 0.12;
+				ring.style.left = rx - 17 + 'px';
+				ring.style.top = ry - 17 + 'px';
+				requestAnimationFrame(animRing);
+			})();
+
+			// ===== PRODUCTS DATA =====
+			const PRODUCTS = [
+				// NOUTBUKLAR
+				{
+					id: 1,
+					cat: 'noutbuklar',
+					brand: 'Apple',
+					name: 'MacBook Pro 16" M4 Max',
+					emoji: '💻',
+					price: 28990000,
+					old: 30500000,
+					tags: ['M4 Max', '36GB RAM', '1TB SSD', '16"'],
+					badge: 'new',
+				},
+				{
+					id: 2,
+					cat: 'noutbuklar',
+					brand: 'Lenovo',
+					name: 'ThinkPad X1 Carbon Gen 12',
+					emoji: '💻',
+					price: 16990000,
+					old: 18500000,
+					tags: ['Intel i7', '16GB RAM', '512GB SSD'],
+					badge: 'sale',
+				},
+				{
+					id: 3,
+					cat: 'noutbuklar',
+					brand: 'ASUS',
+					name: 'ROG Strix G16 Gaming',
+					emoji: '💻',
+					price: 32990000,
+					old: null,
+					tags: ['RTX 4070', '32GB RAM', '1TB NVMe'],
+					badge: 'hot',
+				},
+				{
+					id: 4,
+					cat: 'noutbuklar',
+					brand: 'Dell',
+					name: 'XPS 15 OLED 2024',
+					emoji: '💻',
+					price: 22490000,
+					old: 24990000,
+					tags: ['Intel i9', '32GB RAM', 'OLED 4K'],
+					badge: 'new',
+				},
+				{
+					id: 5,
+					cat: 'noutbuklar',
+					brand: 'HP',
+					name: 'Spectre x360 14" OLED',
+					emoji: '💻',
+					price: 18990000,
+					old: null,
+					tags: ['Intel i7', '16GB', 'OLED Touch'],
+					badge: null,
+				},
+				{
+					id: 6,
+					cat: 'noutbuklar',
+					brand: 'Microsoft',
+					name: 'Surface Laptop 5',
+					emoji: '💻',
+					price: 15490000,
+					old: null,
+					tags: ['Intel i5', '8GB', '256GB'],
+					badge: null,
+				},
+				{
+					id: 7,
+					cat: 'noutbuklar',
+					brand: 'Apple',
+					name: 'MacBook Air M3 15"',
+					emoji: '💻',
+					price: 19990000,
+					old: 21500000,
+					tags: ['M3 chip', '16GB', '512GB SSD'],
+					badge: 'sale',
+				},
+				{
+					id: 8,
+					cat: 'noutbuklar',
+					brand: 'Lenovo',
+					name: 'IdeaPad Slim 5 Pro',
+					emoji: '💻',
+					price: 8990000,
+					old: null,
+					tags: ['Ryzen 7', '16GB', '512GB'],
+					badge: null,
+				},
+
+				// MONITORLAR
+				{
+					id: 9,
+					cat: 'monitorlar',
+					brand: 'Dell',
+					name: 'UltraSharp 27" 4K IPS',
+					emoji: '🖥️',
+					price: 7490000,
+					old: 8200000,
+					tags: ['4K UHD', 'IPS', 'USB-C', '27"'],
+					badge: 'sale',
+				},
+				{
+					id: 10,
+					cat: 'monitorlar',
+					brand: 'LG',
+					name: '27UK850-W 4K HDR',
+					emoji: '🖥️',
+					price: 6290000,
+					old: null,
+					tags: ['4K', 'HDR600', 'USB-C'],
+					badge: null,
+				},
+				{
+					id: 11,
+					cat: 'monitorlar',
+					brand: 'Samsung',
+					name: 'Odyssey G7 32" Curved',
+					emoji: '🖥️',
+					price: 8990000,
+					old: 9500000,
+					tags: ['QHD', '240Hz', 'VA', 'Curved'],
+					badge: 'hot',
+				},
+				{
+					id: 12,
+					cat: 'monitorlar',
+					brand: 'ASUS',
+					name: 'ProArt PA279CRV 4K OLED',
+					emoji: '🖥️',
+					price: 12490000,
+					old: null,
+					tags: ['4K OLED', 'USB-C', 'HDR'],
+					badge: 'new',
+				},
+				{
+					id: 13,
+					cat: 'monitorlar',
+					brand: 'LG',
+					name: 'UltraWide 34" WQHD',
+					emoji: '🖥️',
+					price: 9490000,
+					old: null,
+					tags: ['WQHD', 'IPS', '144Hz', '34"'],
+					badge: null,
+				},
+				{
+					id: 14,
+					cat: 'monitorlar',
+					brand: 'BenQ',
+					name: 'PD3225U 4K Designer',
+					emoji: '🖥️',
+					price: 11990000,
+					old: null,
+					tags: ['4K', 'USB-C', 'DCI-P3 95%'],
+					badge: null,
+				},
+
+				// KLAVIATURALAR
+				{
+					id: 15,
+					cat: 'klaviaturalar',
+					brand: 'Razer',
+					name: 'BlackWidow V4 Pro Mechanical',
+					emoji: '⌨️',
+					price: 2490000,
+					old: null,
+					tags: ['Mexanik', 'RGB', 'Simsiz'],
+					badge: 'hot',
+				},
+				{
+					id: 16,
+					cat: 'klaviaturalar',
+					brand: 'Logitech',
+					name: 'MX Keys S Advanced',
+					emoji: '⌨️',
+					price: 1490000,
+					old: 1700000,
+					tags: ['Simsiz', 'Backlit', 'Multi-device'],
+					badge: 'sale',
+				},
+				{
+					id: 17,
+					cat: 'klaviaturalar',
+					brand: 'Keychron',
+					name: 'Q3 Pro QMK Mechanical',
+					emoji: '⌨️',
+					price: 1890000,
+					old: null,
+					tags: ['Mexanik', 'RGB', 'Hot-swap'],
+					badge: 'new',
+				},
+				{
+					id: 18,
+					cat: 'klaviaturalar',
+					brand: 'Corsair',
+					name: 'K100 RGB Optical',
+					emoji: '⌨️',
+					price: 2190000,
+					old: null,
+					tags: ['Optik', 'RGB', 'Aluminium'],
+					badge: null,
+				},
+				{
+					id: 19,
+					cat: 'klaviaturalar',
+					brand: 'Apple',
+					name: 'Magic Keyboard Touch ID',
+					emoji: '⌨️',
+					price: 1190000,
+					old: null,
+					tags: ['Simsiz', 'Touch ID', 'Slim'],
+					badge: null,
+				},
+				{
+					id: 20,
+					cat: 'klaviaturalar',
+					brand: 'SteelSeries',
+					name: 'Apex Pro TKL Wireless',
+					emoji: '⌨️',
+					price: 2890000,
+					old: 3100000,
+					tags: ['Ajustable actuaction', 'OLEDisplay', 'Simsiz'],
+					badge: 'sale',
+				},
+				{
+					id: 21,
+					cat: 'klaviaturalar',
+					brand: 'Ducky',
+					name: 'One 3 TKL SF RGB',
+					emoji: '⌨️',
+					price: 1290000,
+					old: null,
+					tags: ['Mexanik', 'Cherry MX', 'RGB'],
+					badge: null,
+				},
+
+				// SICHQONCHALAR
+				{
+					id: 22,
+					cat: 'sichqonchalar',
+					brand: 'Logitech',
+					name: 'MX Master 3S Wireless',
+					emoji: '🖱️',
+					price: 790000,
+					old: 980000,
+					tags: ['Simsiz', '8000 DPI', 'USB-C'],
+					badge: 'sale',
+				},
+				{
+					id: 23,
+					cat: 'sichqonchalar',
+					brand: 'Razer',
+					name: 'DeathAdder V3 Pro',
+					emoji: '🖱️',
+					price: 1190000,
+					old: null,
+					tags: ['63g', '30000 DPI', 'Simsiz'],
+					badge: 'hot',
+				},
+				{
+					id: 24,
+					cat: 'sichqonchalar',
+					brand: 'Apple',
+					name: 'Magic Mouse 3 Multi-Touch',
+					emoji: '🖱️',
+					price: 890000,
+					old: null,
+					tags: ['Multi-Touch', 'Simsiz', 'Slim'],
+					badge: null,
+				},
+				{
+					id: 25,
+					cat: 'sichqonchalar',
+					brand: 'SteelSeries',
+					name: 'Aerox 9 Wireless',
+					emoji: '🖱️',
+					price: 1490000,
+					old: null,
+					tags: ['18 tugma', '18000 DPI', 'IP54'],
+					badge: 'new',
+				},
+				{
+					id: 26,
+					cat: 'sichqonchalar',
+					brand: 'Logitech',
+					name: 'G Pro X Superlight 2',
+					emoji: '🖱️',
+					price: 1290000,
+					old: 1500000,
+					tags: ['60g', '32000 DPI', 'Simsiz'],
+					badge: 'sale',
+				},
+				{
+					id: 27,
+					cat: 'sichqonchalar',
+					brand: 'Zowie',
+					name: 'EC2-C eSports Mouse',
+					emoji: '🖱️',
+					price: 790000,
+					old: null,
+					tags: ['3360 sensor', 'Simsiz emas', 'Ergonomic'],
+					badge: null,
+				},
+
+				// FLESH
+				{
+					id: 28,
+					cat: 'flesh',
+					brand: 'Samsung',
+					name: 'Flash Drive 128GB USB 3.2',
+					emoji: '💾',
+					price: 145000,
+					old: null,
+					tags: ['128GB', 'USB 3.2', '400MB/s'],
+					badge: null,
+				},
+				{
+					id: 29,
+					cat: 'flesh',
+					brand: 'SanDisk',
+					name: 'Extreme Pro 256GB USB-C',
+					emoji: '💾',
+					price: 290000,
+					old: 350000,
+					tags: ['256GB', 'USB-C', '420MB/s'],
+					badge: 'sale',
+				},
+				{
+					id: 30,
+					cat: 'flesh',
+					brand: 'Kingston',
+					name: 'DataTraveler Max 512GB',
+					emoji: '💾',
+					price: 490000,
+					old: null,
+					tags: ['512GB', 'USB 3.2', '1000MB/s'],
+					badge: 'new',
+				},
+				{
+					id: 31,
+					cat: 'flesh',
+					brand: 'Samsung',
+					name: 'T7 Shield SSD 1TB',
+					emoji: '💾',
+					price: 890000,
+					old: null,
+					tags: ['1TB', 'USB-C', '1050MB/s', 'IP65'],
+					badge: 'top',
+				},
+				{
+					id: 32,
+					cat: 'flesh',
+					brand: 'SanDisk',
+					name: 'Ultra Dual Drive 64GB',
+					emoji: '💾',
+					price: 95000,
+					old: null,
+					tags: ['64GB', 'USB-C + USB-A'],
+					badge: null,
+				},
+				{
+					id: 33,
+					cat: 'flesh',
+					brand: 'Lexar',
+					name: 'JumpDrive M900 256GB',
+					emoji: '💾',
+					price: 195000,
+					old: null,
+					tags: ['256GB', '400MB/s'],
+					badge: null,
+				},
+
+				// QULAQCHINLAR
+				{
+					id: 34,
+					cat: 'qulaqchinlar',
+					brand: 'Sony',
+					name: 'WH-1000XM5 ANC',
+					emoji: '🎧',
+					price: 3290000,
+					old: null,
+					tags: ['ANC', 'BT 5.2', '30h batareya'],
+					badge: 'top',
+				},
+				{
+					id: 35,
+					cat: 'qulaqchinlar',
+					brand: 'Apple',
+					name: 'AirPods Pro 2 MagSafe',
+					emoji: '🎧',
+					price: 2890000,
+					old: 3200000,
+					tags: ['ANC', 'Spatial Audio', 'MagSafe'],
+					badge: 'sale',
+				},
+				{
+					id: 36,
+					cat: 'qulaqchinlar',
+					brand: 'Bose',
+					name: 'QuietComfort 45',
+					emoji: '🎧',
+					price: 2490000,
+					old: null,
+					tags: ['ANC', '24h', 'Foldable'],
+					badge: null,
+				},
+				{
+					id: 37,
+					cat: 'qulaqchinlar',
+					brand: 'HyperX',
+					name: 'Cloud III Gaming Headset',
+					emoji: '🎧',
+					price: 990000,
+					old: null,
+					tags: ['7.1 Surround', 'Mic', 'USB-C'],
+					badge: 'hot',
+				},
+				{
+					id: 38,
+					cat: 'qulaqchinlar',
+					brand: 'Samsung',
+					name: 'Galaxy Buds3 Pro',
+					emoji: '🎧',
+					price: 1490000,
+					old: null,
+					tags: ['ANC', '360 Audio', 'IP57'],
+					badge: 'new',
+				},
+
+				// AKSESSUARLAR
+				{
+					id: 39,
+					cat: 'aksessuarlar',
+					brand: 'Anker',
+					name: 'USB-C Hub 10-in-1 Pro',
+					emoji: '🔌',
+					price: 415000,
+					old: 490000,
+					tags: ['HDMI 4K', 'USB 3.0', 'SD karta'],
+					badge: 'sale',
+				},
+				{
+					id: 40,
+					cat: 'aksessuarlar',
+					brand: 'Belkin',
+					name: 'MagSafe 3-in-1 Charger',
+					emoji: '🔌',
+					price: 690000,
+					old: null,
+					tags: ['MagSafe', 'Watch', 'AirPods'],
+					badge: null,
+				},
+				{
+					id: 41,
+					cat: 'aksessuarlar',
+					brand: 'CalDigit',
+					name: 'TS4 Thunderbolt 4 Dock',
+					emoji: '🔌',
+					price: 2190000,
+					old: null,
+					tags: ['18 port', 'TB4', '98W'],
+					badge: 'new',
+				},
+
+				// XOTIRA
+				{
+					id: 42,
+					cat: 'xotira',
+					brand: 'Samsung',
+					name: '980 Pro NVMe SSD 2TB',
+					emoji: '💿',
+					price: 1490000,
+					old: null,
+					tags: ['2TB', '7000MB/s', 'NVMe'],
+					badge: 'top',
+				},
+				{
+					id: 43,
+					cat: 'xotira',
+					brand: 'Crucial',
+					name: 'DDR5 32GB 5600MHz RAM',
+					emoji: '💿',
+					price: 890000,
+					old: null,
+					tags: ['32GB', 'DDR5', '5600MHz'],
+					badge: null,
+				},
+				{
+					id: 44,
+					cat: 'xotira',
+					brand: 'WD',
+					name: 'Black SN850X 1TB NVMe',
+					emoji: '💿',
+					price: 890000,
+					old: 990000,
+					tags: ['1TB', '7300MB/s', 'NVMe'],
+					badge: 'sale',
+				},
+
+				// SUMKA
+				{
+					id: 45,
+					cat: 'sumka',
+					brand: 'Incase',
+					name: 'ICON Backpack Pro 16"',
+					emoji: '🎒',
+					price: 590000,
+					old: null,
+					tags: ['16" Noutbuk', 'USB-A', "Suv o'tkazmas"],
+					badge: null,
+				},
+				{
+					id: 46,
+					cat: 'sumka',
+					brand: 'Peak Design',
+					name: 'Everyday Backpack 20L',
+					emoji: '🎒',
+					price: 2490000,
+					old: null,
+					tags: ['20L', 'Magnit lock', 'Premium'],
+					badge: 'hot',
+				},
+			];
+
+			// ===== STATE =====
+			let cart = [];
+			let currentQty = 1;
+			let currentProduct = null;
+			let promoApplied = false;
+			let favs = new Set();
+			let currentFilter = 'all';
+			let currentSort = 'default';
+			let searchQuery = '';
+
+			// ===== PAGE NAVIGATION =====
+			function showPage(page, cat) {
+				['home', 'products', 'categories', 'cart'].forEach(p => {
+					document.getElementById('page-' + p).style.display = 'none';
+				});
+				document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+				document.getElementById('page-' + page).style.display = 'block';
+				document.getElementById('nb-' + page)?.classList.add('active');
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+
+				if (page === 'products') {
+					currentFilter = cat || 'all';
+					currentSort = 'default';
+					searchQuery = '';
+					renderProducts();
+				}
+				if (page === 'cart') renderCart();
+			}
+
+			// ===== FILTER =====
+			function filterCat(cat, btn) {
+				currentFilter = cat;
+				searchQuery = '';
+				document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+				renderProducts();
+			}
+
+			function doSearch(val) {
+				searchQuery = val.toLowerCase().trim();
+				if (searchQuery.length > 0) {
+					showPage('products', 'search');
+					currentFilter = 'search';
+					document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+				}
+				renderProducts();
+			}
+
+			function sortProds(val) {
+				currentSort = val;
+				renderProducts();
+			}
+
+			// ===== RENDER PRODUCTS =====
+			function renderProducts() {
+				let list = [...PRODUCTS];
+
+				// Filter
+				if (currentFilter === 'search' && searchQuery) {
+					list = list.filter(
+						p =>
+							p.name.toLowerCase().includes(searchQuery) ||
+							p.brand.toLowerCase().includes(searchQuery) ||
+							p.cat.toLowerCase().includes(searchQuery) ||
+							p.tags.some(t => t.toLowerCase().includes(searchQuery)),
+					);
+					document.getElementById('prodPageTitle').textContent = 'Qidiruv natijalari: "' + searchQuery + '"';
+				} else if (currentFilter && currentFilter !== 'all' && currentFilter !== 'search') {
+					list = list.filter(p => p.cat === currentFilter);
+					const catNames = {
+						noutbuklar: '💻 Noutbuklar',
+						monitorlar: '🖥️ Monitorlar',
+						klaviaturalar: '⌨️ Klaviaturalar',
+						sichqonchalar: '🖱️ Sichqonchalar',
+						flesh: '💾 Flesh kartalar',
+						qulaqchinlar: '🎧 Qulaqchinlar',
+						aksessuarlar: '🔌 Aksessuarlar',
+						xotira: '💿 Xotira & SSD',
+						sumka: '🎒 Sumka & Himoya',
+					};
+					document.getElementById('prodPageTitle').textContent = catNames[currentFilter] || currentFilter;
+				} else {
+					document.getElementById('prodPageTitle').textContent = 'Barcha mahsulotlar';
+				}
+
+				// Sort
+				if (currentSort === 'price-asc') list.sort((a, b) => a.price - b.price);
+				else if (currentSort === 'price-desc') list.sort((a, b) => b.price - a.price);
+				else if (currentSort === 'name') list.sort((a, b) => a.name.localeCompare(b.name));
+
+				document.getElementById('prodCount').textContent = list.length;
+
+				const grid = document.getElementById('productsGrid');
+				if (list.length === 0) {
+					grid.innerHTML = `<div class="no-results"><div class="no-results-icon">🔍</div><h3>Mahsulot topilmadi</h3><p style="color:var(--muted);margin-top:.5rem;">Boshqa kalit so'z yoki kategoriya tanlang</p></div>`;
+					return;
+				}
+
+				grid.innerHTML = list
+					.map(
+						(p, i) => `
+    <div class="product-card" style="transition-delay:${i * 40}ms" data-id="${p.id}">
+      <div class="prod-img">
+        ${p.emoji}
+        ${p.badge ? `<span class="prod-badge badge-${p.badge}">${{ new: 'Yangi', hot: '🔥 Trend', sale: 'SALE', top: '⭐ Top' }[p.badge]}</span>` : ''}
+        <button class="prod-fav ${favs.has(p.id) ? 'active' : ''}" onclick="toggleFav(event,${p.id})">
+          ${favs.has(p.id) ? '❤️' : '🤍'}
+        </button>
+      </div>
+      <div class="prod-info">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-tags">${p.tags.map(t => `<span class="prod-tag">${t}</span>`).join('')}</div>
+        <div class="prod-bottom">
+          <div>
+            ${p.old ? `<span class="prod-price-old">${fmtPrice(p.old)}</span>` : ''}
+            <div class="prod-price">${fmtPrice(p.price)}</div>
+          </div>
+          <button class="add-cart-btn" onclick="openOrder('${p.name}','${p.emoji}','${p.brand}','${fmtPriceNum(p.price)}','${p.old ? fmtPriceNum(p.old) : ''}',${p.id})">+</button>
+        </div>
+      </div>
+    </div>
+  `,
+					)
+					.join('');
+
+				// Animate in
+				setTimeout(() => {
+					grid.querySelectorAll('.product-card').forEach((c, i) => {
+						setTimeout(() => c.classList.add('visible'), i * 40);
+					});
+				}, 30);
+			}
+
+			function fmtPrice(n) {
+				return n.toLocaleString('uz-UZ') + " so'm";
+			}
+			function fmtPriceNum(n) {
+				return n.toLocaleString('uz-UZ');
+			}
+
+			function toggleFav(e, id) {
+				e.stopPropagation();
+				const btn = e.currentTarget;
+				if (favs.has(id)) {
+					favs.delete(id);
+					btn.textContent = '🤍';
+					btn.classList.remove('active');
+					showToast('Sevimlilardan olib tashlandi', '💔');
+				} else {
+					favs.add(id);
+					btn.textContent = '❤️';
+					btn.classList.add('active');
+					showToast("Sevimlilarga qo'shildi", '❤️');
+				}
+			}
+
+			// ===== ORDER MODAL =====
+			function openOrder(name, emoji, brand, price, old, id) {
+				currentQty = 1;
+				currentProduct = { name, emoji, brand, price, old, id };
+				document.getElementById('mo-name').textContent = name;
+				document.getElementById('mo-emoji').textContent = emoji;
+				document.getElementById('mo-brand').textContent = brand.toUpperCase();
+				document.getElementById('mo-price').textContent = price + " so'm";
+				document.getElementById('mo-old').textContent = old ? old + " so'm" : '';
+				document.getElementById('mo-qty').textContent = '1';
+				document.querySelectorAll('.pay-opt').forEach((o, i) => o.classList.toggle('sel', i === 0));
+				document.getElementById('orderOverlay').classList.add('open');
+			}
+
+			function changeQty(d) {
+				currentQty = Math.max(1, Math.min(10, currentQty + d));
+				document.getElementById('mo-qty').textContent = currentQty;
+			}
+
+			function selPay(el) {
+				document.querySelectorAll('.pay-opt').forEach(o => o.classList.remove('sel'));
+				el.classList.add('sel');
+			}
+
+			function placeOrder() {
+				const payEl = document.querySelector('.pay-opt.sel .pay-opt-name');
+				const payName = payEl ? payEl.textContent : 'Karta';
+				const priceNum = currentProduct.price.replace(/[^0-9]/g, '');
+				const total = (parseInt(priceNum) * currentQty).toLocaleString('uz-UZ') + " so'm";
+				const orderNum = '#NX-' + Math.floor(1000 + Math.random() * 9000);
+
+				// Add to cart
+				addToCart(currentProduct, currentQty);
+
+				document.getElementById('orderNum').textContent = orderNum;
+				document.getElementById('orderPay').textContent = payName;
+				document.getElementById('orderTotal').textContent = total;
+				closeOverlay('orderOverlay');
+				setTimeout(() => document.getElementById('successOverlay').classList.add('open'), 200);
+			}
+
+			// ===== CART =====
+			function addToCart(prod, qty) {
+				const existing = cart.find(c => c.id == prod.id);
+				if (existing) {
+					existing.qty += qty;
+				} else {
+					cart.push({ ...prod, qty });
+				}
+				updateCartBadge();
+				showToast(prod.name + " savatga qo'shildi", '🛒');
+			}
+
+			function updateCartBadge() {
+				const total = cart.reduce((s, c) => s + c.qty, 0);
+				document.getElementById('cartBadge').textContent = total;
+			}
+
+			function renderCart() {
+				const list = document.getElementById('cartItemsList');
+				if (cart.length === 0) {
+					list.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><h3 style="font-family:'Syne',sans-serif;font-weight:800;color:#fff;margin-bottom:.5rem;">Savat bo'sh</h3><p style="color:var(--muted);margin-bottom:1.5rem;">Mahsulotlarni ko'rib chiqing va savatga qo'shing</p><button class="btn-primary" onclick="showPage('products','all')">Xarid qilish →</button></div>`;
+					document.getElementById('checkoutBtn').disabled = true;
+				} else {
+					list.innerHTML = cart
+						.map((item, i) => {
+							const priceNum = parseInt(item.price.replace(/[^0-9]/g, ''));
+							const itemTotal = (priceNum * item.qty).toLocaleString('uz-UZ');
+							return `<div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-brand">${item.brand}</div>
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">${itemTotal} so'm</div>
+        </div>
+        <div class="cart-item-actions">
+          <button class="qty-btn" onclick="cartQty(${i},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="cartQty(${i},1)">+</button>
+          <button class="remove-btn" onclick="removeCart(${i})">🗑</button>
+        </div>
+      </div>`;
+						})
+						.join('');
+					document.getElementById('checkoutBtn').disabled = false;
+				}
+
+				// Summary
+				const total = cart.reduce((s, c) => {
+					const p = parseInt(c.price.replace(/[^0-9]/g, ''));
+					return s + p * c.qty;
+				}, 0);
+				const count = cart.reduce((s, c) => s + c.qty, 0);
+				document.getElementById('sumItems').textContent = count + ' ta';
+				document.getElementById('sumTotal').textContent = total.toLocaleString('uz-UZ') + " so'm";
+				document.getElementById('sumDiscount').textContent = promoApplied ? '-10%' : '—';
+			}
+
+			function cartQty(i, d) {
+				cart[i].qty = Math.max(1, cart[i].qty + d);
+				updateCartBadge();
+				renderCart();
+			}
+
+			function removeCart(i) {
+				cart.splice(i, 1);
+				updateCartBadge();
+				renderCart();
+				showToast("Mahsulot o'chirildi", '🗑️');
+			}
+
+			function applyPromo() {
+				const val = document.getElementById('promoInput').value.trim().toUpperCase();
+				if (val === 'NEXUS10') {
+					promoApplied = true;
+					showToast("Promo kod qo'llandi! -10%", '🎉');
+					renderCart();
+				} else {
+					showToast("Noto'g'ri promo kod", '❌');
+				}
+			}
+
+			function checkout() {
+				if (cart.length === 0) return;
+				const total = cart.reduce((s, c) => {
+					const p = parseInt(c.price.replace(/[^0-9]/g, ''));
+					return s + p * c.qty;
+				}, 0);
+				document.getElementById('orderNum').textContent = '#NX-' + Math.floor(1000 + Math.random() * 9000);
+				document.getElementById('orderPay').textContent = 'Tanlangan usul';
+				document.getElementById('orderTotal').textContent = total.toLocaleString('uz-UZ') + " so'm";
+				cart = [];
+				updateCartBadge();
+				document.getElementById('successOverlay').classList.add('open');
+			}
+
+			// ===== UTILS =====
+			function closeOverlay(id) {
+				document.getElementById(id).classList.remove('open');
+			}
+
+			document.querySelectorAll('.overlay').forEach(o => {
+				o.addEventListener('click', e => {
+					if (e.target === o) o.classList.remove('open');
+				});
+			});
+
+			function showToast(msg, icon = '✓') {
+				const t = document.getElementById('toast');
+				document.getElementById('toastText').textContent = msg;
+				document.getElementById('toastIcon').textContent = icon;
+				t.classList.add('show');
+				clearTimeout(t._t);
+				t._t = setTimeout(() => t.classList.remove('show'), 2800);
+			}
+
+			// Initial render
+			renderProducts();
+		</script>
+	</body>
+</html>
